@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
+    }
+}
+
+repositories {
+    mavenLocal()
+}
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion rootProject.ext.buildToolsVersionVariable
+    defaultConfig {
+        applicationId "com.polidea.rxandroidble.sample"
+        minSdkVersion 21
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //productFlavors {
+    //}
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    // compile group: 'com.polidea.rxandroidble', name: 'rxandroidble', version: '1.1.0', changing: false
+    compile project(path: ':rxandroidble')
+    compile "com.android.support:appcompat-v7:$rootProject.ext.buildToolsVersionVariable"
+    compile "com.android.support:design:$rootProject.ext.buildToolsVersionVariable"
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile rootProject.ext.libs.rxjava
+    compile rootProject.ext.libs.rxandroid
+    compile 'com.trello:rxlifecycle:1.0'
+    compile 'com.trello:rxlifecycle-components:1.0'
+}

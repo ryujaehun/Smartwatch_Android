@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+apply plugin: 'groovyx.android'
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion rootProject.ext.buildToolsVersionVariable
+
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 24
+        versionCode 1
+        versionName VERSION_NAME
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.targetCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    preBuild.dependsOn 'checkstyle'
+}
+
+dependencies {
+    compile rootProject.ext.libs.rxjava
+    compile rootProject.ext.libs.rxandroid
+    compile rootProject.ext.libs.support_annotations
+
+    // Test dependencies
+    testCompile rootProject.ext.libs.junit
+    testCompile rootProject.ext.libs.groovy
+    testCompile rootProject.ext.libs.spock
+    testCompile rootProject.ext.libs.robospock
+    testCompile rootProject.ext.libs.support
+}

@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+apply plugin: 'groovyx.android'
+apply plugin: 'me.tatarka.retrolambda'
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion rootProject.ext.buildToolsVersionVariable
+
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 24
+        versionCode 1
+        versionName VERSION_NAME
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.targetCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+
+    // Test dependencies
+    testCompile rootProject.ext.libs.junit
+    testCompile rootProject.ext.libs.groovy
+    testCompile rootProject.ext.libs.spock
+    testCompile rootProject.ext.libs.robospock
+    compile project(path: ':rxandroidble')
+}
